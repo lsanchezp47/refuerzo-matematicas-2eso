@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Potencias de números enteros · Refuerzo 2.º ESO</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#eef1f5; --paper:#ffffff; --ink:#1c2433; --muted:#5a6475; --line:#cfd6e0;
+  --band:#1f3a5f; --band-ink:#ffffff;
+  --navy:#1f3a5f; --navy-bg:#eaf0f7;
+  --green:#23704a; --green-bg:#e8f4ec;
+  --gold:#8a6000; --gold-bg:#fbf3dc; --gold-line:#d9b45a;
+  --red:#a83232; --red-bg:#fbeaea;
+  --ok:#1f7a45; --ok-bg:#dff2e6; --bad:#b03030; --bad-bg:#fbe1e1;
+  --serif:"STIX Two Text","Times New Roman",Times,"Liberation Serif",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: dark;
+    --bg:#10151d; --paper:#181f2a; --ink:#e4e8ef; --muted:#9aa4b4; --line:#2f3a4b;
+    --band:#1d3557; --band-ink:#ffffff;
+    --navy:#9dbde8; --navy-bg:#1b2637;
+    --green:#82d3a5; --green-bg:#16281e;
+    --gold:#e6c062; --gold-bg:#29230f; --gold-line:#7a6326;
+    --red:#f29393; --red-bg:#2e1a1a;
+    --ok:#82d3a5; --ok-bg:#163222; --bad:#f29393; --bad-bg:#3a1c1c;
+  }
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:1.15rem;line-height:1.55}
+.wrap{max-width:54rem;margin:0 auto;padding:0 1rem 6rem}
+
+/* Cabecera */
+.band{background:var(--band);color:var(--band-ink);padding:1.4rem 1rem 1.2rem}
+.band .in{max-width:54rem;margin:0 auto;padding:0 1rem}
+.band .curso{font-family:var(--sans);font-size:.9rem;opacity:.85;margin:0}
+.band h1{font-size:2.1rem;line-height:1.15;margin:.2rem 0 .9rem;font-weight:700}
+.datos{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;font-family:var(--sans);font-size:.92rem}
+.datos label{display:flex;align-items:center;gap:.4rem}
+.datos input{font:inherit;border:0;border-bottom:1.5px solid rgba(255,255,255,.7);background:transparent;color:#fff;padding:.15rem .2rem;min-width:6rem}
+.datos input.nombre{min-width:14rem}
+
+/* Cajas */
+.box{border-left:6px solid;border-radius:6px;padding:.9rem 1.1rem;margin:1.4rem 0}
+.box>h2{margin:0 0 .5rem;font-size:1.3rem}
+.box p{margin:.45rem 0}
+.teoria{border-color:var(--navy);background:var(--navy-bg)} .teoria>h2{color:var(--navy)}
+.ejemplo{border-color:var(--green);background:var(--green-bg)} .ejemplo>h2{color:var(--green)}
+.recuerda{border-color:var(--gold-line);background:var(--gold-bg)} .recuerda>h2{color:var(--gold)}
+.errores{border-color:var(--red);background:var(--red-bg)} .errores>h2{color:var(--red)}
+.reto{border-color:var(--gold-line);background:var(--gold-bg)} .reto>h2{color:var(--gold)}
+
+.m{font-family:var(--serif);white-space:nowrap}
+sup{font-size:.68em;line-height:0}
+.def{font-size:1.35rem;text-align:center;margin:.7rem 0}
+table.lect{border-collapse:collapse;margin:.6rem 0;font-size:1.05rem}
+table.lect td,table.lect th{border:1px solid var(--line);padding:.25rem .7rem;text-align:center}
+table.lect th{font-weight:600}
+.regla{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.6rem;margin:.6rem 0}
+.regla div{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:.5rem .7rem}
+.signo{font-weight:700;font-size:1.25rem}
+
+/* Máquina de potencias */
+.maquina{background:var(--paper);border:2px solid var(--navy);border-radius:10px;padding:1rem 1.1rem;margin:1.4rem 0}
+.maquina h2{margin:0 0 .3rem;color:var(--navy);font-size:1.3rem}
+.ctrl{display:flex;flex-wrap:wrap;gap:.8rem 1.6rem;align-items:center;font-family:var(--sans);font-size:.95rem;margin:.6rem 0}
+.ctrl label{display:flex;align-items:center;gap:.5rem}
+.ctrl input[type=range]{width:9rem;accent-color:var(--navy)}
+.ctrl output{font-family:var(--serif);font-size:1.2rem;font-weight:700;min-width:2rem;display:inline-block;text-align:center}
+.pantalla{border-top:1px solid var(--line);margin-top:.6rem;padding-top:.6rem}
+.pantalla .grande{font-size:2.2rem;line-height:1.3}
+.pantalla .linea{margin:.25rem 0}
+.pantalla .nota{color:var(--muted);font-size:1rem}
+.pantalla .res{font-size:2rem;font-weight:700;color:var(--navy)}
+
+/* Ejemplos por pasos */
+.ejr{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:.6rem .8rem;margin:.6rem 0}
+.ejr .enun{font-weight:600}
+.paso{margin:.3rem 0 .3rem .4rem}
+.paso[hidden]{display:none}
+.paso .n{display:inline-block;min-width:1.4rem;color:var(--green);font-weight:700}
+
+/* Errores */
+.err{display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem;margin:.5rem 0;align-items:baseline}
+.mal{color:var(--red);text-decoration:line-through;text-decoration-thickness:2px}
+.bien{color:var(--green);font-weight:700}
+
+/* Ejercicios */
+.ej{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;margin:1.2rem 0}
+.ej h3{margin:0 0 .2rem;font-size:1.2rem;color:var(--navy)}
+.ej .consigna{margin:0 0 .7rem}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.45rem .8rem}
+.items.ancho{grid-template-columns:1fr}
+.it{padding:.45rem .6rem;border-radius:6px;border:1.5px solid transparent;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem}
+.it .l{font-weight:700;min-width:1.4rem}
+.it.ok{background:var(--ok-bg);border-color:var(--ok)}
+.it.bad{background:var(--bad-bg);border-color:var(--bad)}
+.it.ok::after{content:"✓";color:var(--ok);font-weight:700;margin-left:auto}
+.it.bad::after{content:"✗";color:var(--bad);font-weight:700;margin-left:auto}
+.problema{display:block}
+.problema p{margin:0 0 .4rem}
+.problema .resp{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}
+input.ans,select.ans{font:inherit;font-size:1.05rem;padding:.15rem .35rem;border:1.5px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);width:5.5rem;text-align:center}
+select.ans{width:auto;text-align:left;font-size:1rem}
+input.ans.sm{width:2.6rem;font-size:.95rem;padding:.05rem .2rem;vertical-align:super}
+input.ans:focus,select.ans:focus,button:focus-visible{outline:3px solid var(--gold-line);outline-offset:1px}
+.choices{display:inline-flex;gap:.35rem;flex-wrap:wrap}
+.choices button{font:inherit;font-size:1.05rem;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:.1rem .8rem;cursor:pointer;min-height:2.2rem}
+.choices button[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.acciones{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:.8rem}
+.btn{font-family:var(--sans);font-size:.95rem;background:var(--band);color:#fff;border:0;border-radius:6px;padding:.5rem 1rem;cursor:pointer}
+.btn.sec{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+.btn[disabled]{opacity:.5;cursor:default}
+.fb{font-family:var(--sans);font-size:.95rem}
+.fb.todo{color:var(--ok);font-weight:600}
+details.sol{margin-top:.7rem;border-top:1px dashed var(--line);padding-top:.5rem}
+details.sol summary{cursor:pointer;font-family:var(--sans);font-size:.95rem;color:var(--navy)}
+details.sol ol{margin:.5rem 0;padding-left:1.4rem}
+details.sol li{margin:.25rem 0}
+
+/* Marcador */
+.marcador{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));background:var(--paper);border:2px solid var(--navy);border-radius:10px;padding:.5rem .8rem;font-family:var(--sans);font-size:.9rem;box-shadow:0 2px 10px rgba(0,0,0,.18);min-width:11rem;z-index:5}
+.marcador .barra{height:.5rem;background:var(--line);border-radius:999px;overflow:hidden;margin-top:.35rem}
+.marcador .barra i{display:block;height:100%;width:0;background:var(--green);transition:width .4s}
+.final{display:none;text-align:center;font-size:1.3rem;font-weight:700;color:var(--green);margin:2rem 0}
+.final.on{display:block}
+
+@media (max-width:560px){
+  body{font-size:1.05rem}
+  .band h1{font-size:1.7rem}
+  .marcador{left:1rem;right:1rem}
+}
+@media (prefers-reduced-motion:reduce){.marcador .barra i{transition:none}}
+@media print{
+  body{background:#fff;color:#000}
+  .btn,.acciones,.marcador,details.sol,.ctrl{display:none!important}
+  .paso[hidden]{display:block!important}
+  .ej,.box,.maquina{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="in">
+    <p class="curso">Refuerzo de Matemáticas 2.º ESO · Tema 3. Potencias y raíces</p>
+    <h1>Potencias de números enteros</h1>
+    <div class="datos">
+      <label>Nombre <input class="nombre" type="text" aria-label="Nombre"></label>
+      <label>Grupo <input type="text" aria-label="Grupo"></label>
+      <label>Fecha <input type="text" aria-label="Fecha"></label>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- RECUERDA -->
+<section class="box recuerda">
+  <h2>Recuerda: la regla de los signos</h2>
+  <p>Lo usaste al multiplicar enteros (fichas 3 y 4):</p>
+  <p class="m" style="font-size:1.2rem">(+)·(+) = +&emsp; (−)·(−) = +&emsp; (+)·(−) = −&emsp; (−)·(+) = −</p>
+  <p>Cuando hay <b>muchos factores</b>, cuenta cuántos son negativos:</p>
+  <p>• número <b>par</b> de negativos → resultado <b>positivo</b><br>• número <b>impar</b> de negativos → resultado <b>negativo</b></p>
+  <p>Ejemplo: <span class="m">(−2) · (−3) · (−1)</span>: hay 3 negativos (impar) → signo −. &nbsp;Y <span class="m">2 · 3 · 1 = 6</span>. &nbsp;Resultado: <span class="m"><b>−6</b></span>.</p>
+</section>
+
+<!-- TEORÍA 1 -->
+<section class="box teoria">
+  <h2>¿Qué es una potencia?</h2>
+  <p>Una <b>potencia</b> es una forma abreviada de escribir una multiplicación de factores <b>iguales</b>.</p>
+  <p class="def m">a<sup>n</sup> = a · a · a · … · a &nbsp;(n veces)</p>
+  <p><b>a</b> es la <b>base</b>: el número que se repite.<br><b>n</b> es el <b>exponente</b>: cuántas veces se repite.</p>
+  <p>Ejemplo: <span class="m">5 · 5 · 5 = 5<sup>3</sup></span>. La base es 5 y el exponente es 3.<br>
+     Si la base es negativa, va <b>entre paréntesis</b>: <span class="m">(−4) · (−4) = (−4)<sup>2</sup></span>.</p>
+  <table class="lect">
+    <tr><th>Exponente</th><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+    <tr><th>Se lee</th><td>al cuadrado</td><td>al cubo</td><td>a la cuarta</td><td>a la quinta</td><td>a la sexta</td></tr>
+  </table>
+  <p>Así, <span class="m">7<sup>5</sup></span> se lee «7 a la quinta» y <span class="m">(−8)<sup>3</sup></span> se lee «menos 8 al cubo».</p>
+</section>
+
+<!-- TEORÍA 2 -->
+<section class="box teoria">
+  <h2>El signo de una potencia</h2>
+  <p>Como una potencia es una multiplicación, su signo sale de la regla de los signos:</p>
+  <div class="regla">
+    <div><b>Base positiva</b><br>siempre <span class="signo">+</span><br><span class="m">3<sup>4</sup> = 81</span></div>
+    <div><b>Base negativa y exponente par</b><br><span class="signo">+</span><br><span class="m">(−3)<sup>4</sup> = +81</span></div>
+    <div><b>Base negativa y exponente impar</b><br><span class="signo">−</span><br><span class="m">(−3)<sup>3</sup> = −27</span></div>
+  </div>
+  <p><b>¡Ojo al paréntesis!</b> En <span class="m">(−3)<sup>4</sup></span> la base es −3. En <span class="m">−3<sup>4</sup></span> la base es <b>3</b> y el signo − está fuera: no se eleva.</p>
+  <p class="m" style="font-size:1.15rem">(−3)<sup>4</sup> = (−3)·(−3)·(−3)·(−3) = +81 &emsp;&emsp; −3<sup>4</sup> = −(3·3·3·3) = −81</p>
+</section>
+
+<!-- MÁQUINA -->
+<section class="maquina" aria-labelledby="tmaq">
+  <h2 id="tmaq">Prueba tú: la máquina de potencias</h2>
+  <p style="margin:.2rem 0">Mueve la base y el exponente y observa qué pasa con el signo.</p>
+  <div class="ctrl">
+    <label>Base <input id="mBase" type="range" min="-6" max="6" value="-3"> <output id="oBase">−3</output></label>
+    <label>Exponente <input id="mExp" type="range" min="1" max="7" value="4"> <output id="oExp">4</output></label>
+    <label id="lPar"><input id="mPar" type="checkbox" checked> Con paréntesis</label>
+  </div>
+  <div class="pantalla" aria-live="polite">
+    <div class="grande m" id="pExpr"></div>
+    <div class="linea m" id="pDesa"></div>
+    <div class="linea nota" id="pRazon"></div>
+    <div class="res m" id="pRes"></div>
+  </div>
+</section>
+
+<!-- EJEMPLOS -->
+<section class="box ejemplo">
+  <h2>Ejemplos resueltos paso a paso</h2>
+  <p>Pulsa «Siguiente paso» y piensa tú el paso antes de verlo.</p>
+
+  <div class="ejr">
+    <div class="enun">Ejemplo 1. Calcula <span class="m">2<sup>3</sup></span>.</div>
+    <div class="paso"><span class="n">1.</span> Escribo la multiplicación: <span class="m">2<sup>3</sup> = 2 · 2 · 2</span>.</div>
+    <div class="paso" hidden><span class="n">2.</span> Multiplico: <span class="m">2 · 2 = 4</span>, y <span class="m">4 · 2 = 8</span>.</div>
+    <div class="paso" hidden><span class="n">3.</span> Resultado: <span class="m"><b>2<sup>3</sup> = 8</b></span>. (No es 2 · 3 = 6).</div>
+    <button class="btn sec next" type="button">Siguiente paso</button>
+  </div>
+
+  <div class="ejr">
+    <div class="enun">Ejemplo 2. Calcula <span class="m">(−2)<sup>3</sup></span>.</div>
+    <div class="paso"><span class="n">1.</span> Miro la base: <span class="m">−2</span>, negativa. Miro el exponente: <span class="m">3</span>, impar.</div>
+    <div class="paso" hidden><span class="n">2.</span> Base negativa y exponente impar → signo <b>−</b>.</div>
+    <div class="paso" hidden><span class="n">3.</span> Calculo sin signo: <span class="m">2<sup>3</sup> = 2 · 2 · 2 = 8</span>.</div>
+    <div class="paso" hidden><span class="n">4.</span> Junto signo y número: <span class="m"><b>(−2)<sup>3</sup> = −8</b></span>.</div>
+    <button class="btn sec next" type="button">Siguiente paso</button>
+  </div>
+
+  <div class="ejr">
+    <div class="enun">Ejemplo 3. Calcula <span class="m">(−2)<sup>4</sup></span>.</div>
+    <div class="paso"><span class="n">1.</span> Base <span class="m">−2</span> negativa; exponente <span class="m">4</span> par.</div>
+    <div class="paso" hidden><span class="n">2.</span> Base negativa y exponente par → signo <b>+</b>.</div>
+    <div class="paso" hidden><span class="n">3.</span> Sin signo: <span class="m">2<sup>4</sup> = 2 · 2 · 2 · 2 = 16</span>.</div>
+    <div class="paso" hidden><span class="n">4.</span> Resultado: <span class="m"><b>(−2)<sup>4</sup> = +16</b></span>.</div>
+    <button class="btn sec next" type="button">Siguiente paso</button>
+  </div>
+
+  <div class="ejr">
+    <div class="enun">Ejemplo 4. Calcula <span class="m">−2<sup>4</sup></span> (¡sin paréntesis!).</div>
+    <div class="paso"><span class="n">1.</span> No hay paréntesis: la base es <span class="m">2</span> (positiva). El signo − está delante y no se eleva.</div>
+    <div class="paso" hidden><span class="n">2.</span> Calculo la potencia: <span class="m">2<sup>4</sup> = 16</span>.</div>
+    <div class="paso" hidden><span class="n">3.</span> Pongo el − de delante: <span class="m"><b>−2<sup>4</sup> = −16</b></span>. Compara con el ejemplo 3: ¡cambia el signo!</div>
+    <button class="btn sec next" type="button">Siguiente paso</button>
+  </div>
+
+  <div class="ejr">
+    <div class="enun">Ejemplo 5. Calcula <span class="m">(−1)<sup>7</sup></span> y <span class="m">(−1)<sup>10</sup></span>.</div>
+    <div class="paso"><span class="n">1.</span> <span class="m">1</span> multiplicado por sí mismo siempre da <span class="m">1</span>. Solo hay que decidir el signo.</div>
+    <div class="paso" hidden><span class="n">2.</span> Exponente 7, impar → <span class="m"><b>(−1)<sup>7</sup> = −1</b></span>.</div>
+    <div class="paso" hidden><span class="n">3.</span> Exponente 10, par → <span class="m"><b>(−1)<sup>10</sup> = +1</b></span>.</div>
+    <button class="btn sec next" type="button">Siguiente paso</button>
+  </div>
+</section>
+
+<!-- ERRORES -->
+<section class="box errores">
+  <h2>Errores típicos</h2>
+  <div class="err"><span class="m mal">2<sup>3</sup> = 6</span><span>Has multiplicado base por exponente. <span class="bien m">2<sup>3</sup> = 2·2·2 = 8</span></span></div>
+  <div class="err"><span class="m mal">(−3)<sup>2</sup> = −9</span><span>Exponente par con base negativa da positivo. <span class="bien m">(−3)<sup>2</sup> = +9</span></span></div>
+  <div class="err"><span class="m mal">−3<sup>2</sup> = 9</span><span>Sin paréntesis el − no se eleva. <span class="bien m">−3<sup>2</sup> = −(3·3) = −9</span></span></div>
+  <div class="err"><span class="m mal">(−2)<sup>3</sup> = 8</span><span>Exponente impar con base negativa da negativo. <span class="bien m">(−2)<sup>3</sup> = −8</span></span></div>
+  <div class="err"><span class="m mal">1<sup>5</sup> = 5</span><span>1 por 1 por 1… siempre es 1. <span class="bien m">1<sup>5</sup> = 1</span></span></div>
+</section>
+
+<!-- EJERCICIOS -->
+<h2 style="margin-top:2rem;color:var(--navy)">Ejercicios</h2>
+<p>Escribe tus respuestas y pulsa «Comprobar». Los signos negativos los puedes escribir con el guion <b>-</b> del teclado. Si fallas, corrige y vuelve a comprobar.</p>
+
+<!-- 1 -->
+<section class="ej">
+  <h3>Ejercicio 1. Expresa en forma de potencia</h3>
+  <p class="consigna">Escribe la base en la casilla grande y el exponente en la pequeña. Si la base es negativa, escribe el signo −.</p>
+  <div class="items">
+    <div class="it"><span class="l">a)</span><span class="m">6 · 6 · 6 =</span><input class="ans" data-ans="6" aria-label="base a"><input class="ans sm" data-ans="3" aria-label="exponente a"></div>
+    <div class="it"><span class="l">b)</span><span class="m">2 · 2 · 2 · 2 · 2 =</span><input class="ans" data-ans="2" aria-label="base b"><input class="ans sm" data-ans="5" aria-label="exponente b"></div>
+    <div class="it"><span class="l">c)</span><span class="m">(−2) · (−2) · (−2) =</span><input class="ans" data-ans="-2" aria-label="base c"><input class="ans sm" data-ans="3" aria-label="exponente c"></div>
+    <div class="it"><span class="l">d)</span><span class="m">(−5) · (−5) =</span><input class="ans" data-ans="-5" aria-label="base d"><input class="ans sm" data-ans="2" aria-label="exponente d"></div>
+    <div class="it"><span class="l">e)</span><span class="m">7 · 7 · 7 · 7 =</span><input class="ans" data-ans="7" aria-label="base e"><input class="ans sm" data-ans="4" aria-label="exponente e"></div>
+    <div class="it"><span class="l">f)</span><span class="m">(−1)·(−1)·(−1)·(−1)·(−1)·(−1) =</span><input class="ans" data-ans="-1" aria-label="base f"><input class="ans sm" data-ans="6" aria-label="exponente f"></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li>El 6 se repite 3 veces → <span class="m">6<sup>3</sup></span>.</li>
+    <li>El 2 se repite 5 veces → <span class="m">2<sup>5</sup></span>.</li>
+    <li>El −2 se repite 3 veces → <span class="m">(−2)<sup>3</sup></span>. La base negativa va entre paréntesis.</li>
+    <li>El −5 se repite 2 veces → <span class="m">(−5)<sup>2</sup></span>.</li>
+    <li>El 7 se repite 4 veces → <span class="m">7<sup>4</sup></span>.</li>
+    <li>El −1 se repite 6 veces → <span class="m">(−1)<sup>6</sup></span>.</li>
+  </ol></details>
+</section>
+
+<!-- 2 -->
+<section class="ej">
+  <h3>Ejercicio 2. ¿Cómo se lee?</h3>
+  <p class="consigna">Elige la lectura correcta de cada potencia.</p>
+  <div class="items">
+    <div class="it"><span class="l">a)</span><span class="m">3<sup>5</sup></span><select class="ans" data-ans="3 a la quinta"></select></div>
+    <div class="it"><span class="l">b)</span><span class="m">(−8)<sup>6</sup></span><select class="ans" data-ans="menos 8 a la sexta"></select></div>
+    <div class="it"><span class="l">c)</span><span class="m">10<sup>3</sup></span><select class="ans" data-ans="10 al cubo"></select></div>
+    <div class="it"><span class="l">d)</span><span class="m">(−4)<sup>2</sup></span><select class="ans" data-ans="menos 4 al cuadrado"></select></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li>Base 3, exponente 5 → «3 a la quinta» (no «3 por 5»).</li>
+    <li>Base −8, exponente 6 → «menos 8 a la sexta».</li>
+    <li>Base 10, exponente 3 → «10 al cubo».</li>
+    <li>Base −4, exponente 2 → «menos 4 al cuadrado».</li>
+  </ol></details>
+</section>
+
+<!-- 3 -->
+<section class="ej">
+  <h3>Ejercicio 3. ¿Qué signo tiene? (sin calcular)</h3>
+  <p class="consigna">Mira la base, el exponente y el paréntesis. Elige + o −.</p>
+  <div class="items">
+    <div class="it"><span class="l">a)</span><span class="m">(−3)<sup>5</sup></span><span class="choices" data-ans="-"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">b)</span><span class="m">(−8)<sup>6</sup></span><span class="choices" data-ans="+"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">c)</span><span class="m">10<sup>3</sup></span><span class="choices" data-ans="+"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">d)</span><span class="m">(−4)<sup>2</sup></span><span class="choices" data-ans="+"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">e)</span><span class="m">(−2)<sup>7</sup></span><span class="choices" data-ans="-"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">f)</span><span class="m">−9<sup>2</sup></span><span class="choices" data-ans="-"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">g)</span><span class="m">(−1)<sup>35</sup></span><span class="choices" data-ans="-"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+    <div class="it"><span class="l">h)</span><span class="m">(−1)<sup>24</sup></span><span class="choices" data-ans="+"><button type="button" data-v="+">+</button><button type="button" data-v="-">−</button></span></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li>Base negativa, exponente 5 impar → <b>−</b>.</li>
+    <li>Base negativa, exponente 6 par → <b>+</b>.</li>
+    <li>Base positiva → siempre <b>+</b>.</li>
+    <li>Base negativa, exponente 2 par → <b>+</b>.</li>
+    <li>Base negativa, exponente 7 impar → <b>−</b>.</li>
+    <li>Sin paréntesis: la base es 9 (positiva), <span class="m">9<sup>2</sup> = 81</span>, y el − de delante se queda → <b>−</b>.</li>
+    <li>Base negativa, exponente 35 impar → <b>−</b>.</li>
+    <li>Base negativa, exponente 24 par → <b>+</b>.</li>
+  </ol></details>
+</section>
+
+<!-- 4 -->
+<section class="ej">
+  <h3>Ejercicio 4. Calcula</h3>
+  <p class="consigna">Primero decide el signo; después calcula el número.</p>
+  <div class="items">
+    <div class="it"><span class="l">a)</span><span class="m">(−2)<sup>4</sup> =</span><input class="ans" data-ans="16"></div>
+    <div class="it"><span class="l">b)</span><span class="m">2<sup>3</sup> =</span><input class="ans" data-ans="8"></div>
+    <div class="it"><span class="l">c)</span><span class="m">(−1)<sup>7</sup> =</span><input class="ans" data-ans="-1"></div>
+    <div class="it"><span class="l">d)</span><span class="m">5<sup>2</sup> =</span><input class="ans" data-ans="25"></div>
+    <div class="it"><span class="l">e)</span><span class="m">(−7)<sup>3</sup> =</span><input class="ans" data-ans="-343"></div>
+    <div class="it"><span class="l">f)</span><span class="m">(−10)<sup>4</sup> =</span><input class="ans" data-ans="10000"></div>
+    <div class="it"><span class="l">g)</span><span class="m">−7<sup>3</sup> =</span><input class="ans" data-ans="-343"></div>
+    <div class="it"><span class="l">h)</span><span class="m">(−6)<sup>2</sup> =</span><input class="ans" data-ans="36"></div>
+    <div class="it"><span class="l">i)</span><span class="m">−9<sup>2</sup> =</span><input class="ans" data-ans="-81"></div>
+    <div class="it"><span class="l">j)</span><span class="m">(−5)<sup>3</sup> =</span><input class="ans" data-ans="-125"></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li>Base negativa, exponente par → +. <span class="m">2·2·2·2 = 16</span>. Resultado <b>16</b>.</li>
+    <li><span class="m">2·2·2 = 8</span>.</li>
+    <li>Exponente impar → −. <span class="m">1<sup>7</sup> = 1</span>. Resultado <b>−1</b>.</li>
+    <li><span class="m">5·5 = 25</span>.</li>
+    <li>Exponente impar → −. <span class="m">7·7 = 49</span>; <span class="m">49·7 = 343</span>. Resultado <b>−343</b>.</li>
+    <li>Exponente par → +. <span class="m">10·10·10·10 = 10 000</span>. Resultado <b>10 000</b>.</li>
+    <li>Sin paréntesis: <span class="m">−(7·7·7) = −343</span>. Da lo mismo que e), pero por otro motivo.</li>
+    <li>Exponente par → +. <span class="m">6·6 = 36</span>.</li>
+    <li>Sin paréntesis: <span class="m">−(9·9) = −81</span>.</li>
+    <li>Exponente impar → −. <span class="m">5·5·5 = 125</span>. Resultado <b>−125</b>.</li>
+  </ol></details>
+</section>
+
+<!-- 5 -->
+<section class="ej">
+  <h3>Ejercicio 5. Detecta el error</h3>
+  <p class="consigna">Un compañero ha hecho estas potencias. Di si están bien o mal y escribe el resultado correcto.</p>
+  <div class="items ancho">
+    <div class="it"><span class="l">a)</span><span class="m">3<sup>4</sup> = 12</span><span class="choices" data-ans="mal"><button type="button" data-v="bien">Bien</button><button type="button" data-v="mal">Mal</button></span> Correcto: <input class="ans" data-ans="81"></div>
+    <div class="it"><span class="l">b)</span><span class="m">(−4)<sup>3</sup> = 64</span><span class="choices" data-ans="mal"><button type="button" data-v="bien">Bien</button><button type="button" data-v="mal">Mal</button></span> Correcto: <input class="ans" data-ans="-64"></div>
+    <div class="it"><span class="l">c)</span><span class="m">(−3)<sup>4</sup> = 81</span><span class="choices" data-ans="bien"><button type="button" data-v="bien">Bien</button><button type="button" data-v="mal">Mal</button></span> Correcto: <input class="ans" data-ans="81"></div>
+    <div class="it"><span class="l">d)</span><span class="m">−5<sup>2</sup> = 25</span><span class="choices" data-ans="mal"><button type="button" data-v="bien">Bien</button><button type="button" data-v="mal">Mal</button></span> Correcto: <input class="ans" data-ans="-25"></div>
+    <div class="it"><span class="l">e)</span><span class="m">(−2)<sup>5</sup> = −10</span><span class="choices" data-ans="mal"><button type="button" data-v="bien">Bien</button><button type="button" data-v="mal">Mal</button></span> Correcto: <input class="ans" data-ans="-32"></div>
+    <div class="it"><span class="l">f)</span><span class="m">(−1)<sup>10</sup> = 1</span><span class="choices" data-ans="bien"><button type="button" data-v="bien">Bien</button><button type="button" data-v="mal">Mal</button></span> Correcto: <input class="ans" data-ans="1"></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li>Mal: ha multiplicado 3 · 4. Lo correcto es <span class="m">3·3·3·3 = 81</span>.</li>
+    <li>Mal: base negativa y exponente impar da negativo. <span class="m">4·4·4 = 64</span> → <b>−64</b>.</li>
+    <li>Bien: exponente par → +; <span class="m">3·3·3·3 = 81</span>.</li>
+    <li>Mal: sin paréntesis el − no se eleva. <span class="m">−(5·5) = −25</span>.</li>
+    <li>Mal: ha hecho −2 · 5. Exponente impar → −; <span class="m">2·2·2·2·2 = 32</span> → <b>−32</b>.</li>
+    <li>Bien: base −1 con exponente par → <b>1</b>.</li>
+  </ol></details>
+</section>
+
+<!-- 6 -->
+<section class="ej">
+  <h3>Ejercicio 6. Completa el hueco</h3>
+  <p class="consigna">Piensa qué número tiene que ir en la casilla. Fíjate también en el signo del resultado.</p>
+  <div class="items">
+    <div class="it"><span class="l">a)</span><span class="m">3</span><input class="ans sm" data-ans="3" aria-label="exponente"><span class="m">= 27</span></div>
+    <div class="it"><span class="l">b)</span><span class="m">(−3)</span><input class="ans sm" data-ans="3" aria-label="exponente"><span class="m">= −27</span></div>
+    <div class="it"><span class="l">c)</span><span class="m">(−2)</span><input class="ans sm" data-ans="4" aria-label="exponente"><span class="m">= 16</span></div>
+    <div class="it"><span class="l">d)</span><span class="m">(−4)</span><input class="ans sm" data-ans="4" aria-label="exponente"><span class="m">= 256</span></div>
+    <div class="it"><span class="l">e)</span><input class="ans" style="width:3rem" data-ans="5" aria-label="base"><span class="m"><sup>3</sup> = 125</span></div>
+    <div class="it"><span class="l">f)</span><span class="m">−</span><input class="ans" style="width:3rem" data-ans="2" aria-label="base"><span class="m"><sup>4</sup> = −16</span></div>
+    <div class="it"><span class="l">g)</span><span class="m">(−</span><input class="ans" style="width:3rem" data-ans="2" aria-label="número"><span class="m">)<sup>3</sup> = −8</span></div>
+    <div class="it"><span class="l">h)</span><span class="m">4</span><input class="ans sm" data-ans="3" aria-label="exponente"><span class="m">= 64</span></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li><span class="m">3·3·3 = 27</span> → exponente <b>3</b>.</li>
+    <li><span class="m">3<sup>3</sup> = 27</span> y el resultado es negativo, así que el exponente es impar → <b>3</b>.</li>
+    <li><span class="m">2·2·2·2 = 16</span> y el resultado es positivo (par ✓) → <b>4</b>.</li>
+    <li><span class="m">4·4 = 16</span>; <span class="m">16·4 = 64</span>; <span class="m">64·4 = 256</span> → <b>4</b> (par, positivo ✓).</li>
+    <li><span class="m">5·5·5 = 125</span> → <b>5</b>.</li>
+    <li>Sin paréntesis: <span class="m">−□<sup>4</sup> = −16</span> significa <span class="m">□<sup>4</sup> = 16</span> → <b>2</b>.</li>
+    <li><span class="m">2·2·2 = 8</span> y exponente impar da −8 → <b>2</b>.</li>
+    <li><span class="m">4·4·4 = 64</span> → <b>3</b>.</li>
+  </ol></details>
+</section>
+
+<!-- 7 -->
+<section class="ej">
+  <h3>Ejercicio 7. ¿Con paréntesis o sin paréntesis?</h3>
+  <p class="consigna">Elige la escritura que da ese resultado.</p>
+  <div class="items ancho">
+    <div class="it"><span class="l">a)</span><span class="choices" data-ans="con"><button type="button" data-v="sin" class="m">−2<sup>4</sup></button><button type="button" data-v="con" class="m">(−2)<sup>4</sup></button></span><span class="m">= 16</span></div>
+    <div class="it"><span class="l">b)</span><span class="choices" data-ans="sin"><button type="button" data-v="sin" class="m">−2<sup>4</sup></button><button type="button" data-v="con" class="m">(−2)<sup>4</sup></button></span><span class="m">= −16</span></div>
+    <div class="it"><span class="l">c)</span><span class="choices" data-ans="sin"><button type="button" data-v="sin" class="m">−3<sup>2</sup></button><button type="button" data-v="con" class="m">(−3)<sup>2</sup></button></span><span class="m">= −9</span></div>
+    <div class="it"><span class="l">d)</span><span class="choices" data-ans="con"><button type="button" data-v="sin" class="m">−3<sup>2</sup></button><button type="button" data-v="con" class="m">(−3)<sup>2</sup></button></span><span class="m">= 9</span></div>
+    <div class="it"><span class="l">e)</span><span class="choices" data-ans="las dos"><button type="button" data-v="sin" class="m">−2<sup>3</sup></button><button type="button" data-v="con" class="m">(−2)<sup>3</sup></button><button type="button" data-v="las dos">Las dos</button></span><span class="m">= −8</span></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li><span class="m">(−2)<sup>4</sup> = +16</span> (exponente par). En cambio <span class="m">−2<sup>4</sup> = −16</span>.</li>
+    <li><span class="m">−2<sup>4</sup> = −(2·2·2·2) = −16</span>.</li>
+    <li><span class="m">−3<sup>2</sup> = −(3·3) = −9</span>.</li>
+    <li><span class="m">(−3)<sup>2</sup> = (−3)·(−3) = +9</span>.</li>
+    <li><b>Las dos</b>: <span class="m">(−2)<sup>3</sup> = −8</span> (impar) y <span class="m">−2<sup>3</sup> = −(8) = −8</span>. Con exponente impar coinciden; con exponente par, no.</li>
+  </ol></details>
+</section>
+
+<!-- 8 -->
+<section class="ej">
+  <h3>Ejercicio 8. Problemas</h3>
+  <p class="consigna">Escribe la potencia (base y exponente) y su valor.</p>
+  <div class="items ancho">
+    <div class="it problema"><p><span class="l">a)</span> Una bacteria se divide en 2 cada hora. Si empezamos con 1 bacteria, ¿cuántas habrá al cabo de 5 horas?</p>
+      <div class="resp">Potencia: <input class="ans" data-ans="2" aria-label="base"><input class="ans sm" data-ans="5" aria-label="exponente"> Valor: <input class="ans" data-ans="32" aria-label="valor"> bacterias</div></div>
+    <div class="it problema"><p><span class="l">b)</span> En una finca del Jerte hay 6 bancales. En cada bancal hay 6 filas de cerezos y en cada fila, 6 cerezos. ¿Cuántos cerezos hay?</p>
+      <div class="resp">Potencia: <input class="ans" data-ans="6" aria-label="base"><input class="ans sm" data-ans="3" aria-label="exponente"> Valor: <input class="ans" data-ans="216" aria-label="valor"> cerezos</div></div>
+    <div class="it problema"><p><span class="l">c)</span> Lucía envía un mensaje a 4 amigos (1.ª ronda). Cada uno lo reenvía a 4 personas nuevas (2.ª ronda), y así sucesivamente. ¿Cuántas personas lo reciben en la 3.ª ronda?</p>
+      <div class="resp">Potencia: <input class="ans" data-ans="4" aria-label="base"><input class="ans sm" data-ans="3" aria-label="exponente"> Valor: <input class="ans" data-ans="64" aria-label="valor"> personas</div></div>
+    <div class="it problema"><p><span class="l">d)</span> En un juego empiezas con 1 punto y en cada tirada tu puntuación se multiplica por −2. ¿Cuántos puntos tienes después de 5 tiradas?</p>
+      <div class="resp">Potencia: <input class="ans" data-ans="-2" aria-label="base"><input class="ans sm" data-ans="5" aria-label="exponente"> Valor: <input class="ans" data-ans="-32" aria-label="valor"> puntos</div></div>
+    <div class="it problema"><p><span class="l">e)</span> En el mismo juego, ¿cuántos puntos tienes después de 6 tiradas? ¿Por qué cambia el signo?</p>
+      <div class="resp">Valor: <input class="ans" data-ans="64" aria-label="valor"> puntos</div></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary><ol type="a">
+    <li>1 h: 2; 2 h: 2·2; … 5 h: <span class="m">2·2·2·2·2 = 2<sup>5</sup> = 32</span> bacterias.</li>
+    <li><span class="m">6 · 6 · 6 = 6<sup>3</sup></span>; <span class="m">6·6 = 36</span>; <span class="m">36·6 = 216</span> cerezos.</li>
+    <li>1.ª ronda: 4; 2.ª: <span class="m">4·4 = 16</span>; 3.ª: <span class="m">4·4·4 = 4<sup>3</sup> = 64</span> personas.</li>
+    <li><span class="m">1·(−2)·(−2)·(−2)·(−2)·(−2) = (−2)<sup>5</sup></span>. Exponente impar → −; <span class="m">2<sup>5</sup> = 32</span> → <b>−32</b> puntos.</li>
+    <li><span class="m">(−2)<sup>6</sup></span>: exponente par → +; <span class="m">2<sup>6</sup> = 64</span> → <b>64</b> puntos. Con cada tirada el signo cambia: hay un factor negativo más.</li>
+  </ol></details>
+</section>
+
+<!-- RETO -->
+<section class="box reto ej" style="border-left-width:6px">
+  <h2>Reto: si terminas antes</h2>
+  <div class="items ancho">
+    <div class="it"><span class="l">1.</span> ¿Cuándo tiene el mismo signo la potencia de un número que la de su opuesto? (Por ejemplo, <span class="m">3<sup>n</sup></span> y <span class="m">(−3)<sup>n</sup></span>.)
+      <span class="choices" data-ans="par"><button type="button" data-v="siempre">Siempre</button><button type="button" data-v="par">Exponente par</button><button type="button" data-v="impar">Exponente impar</button><button type="button" data-v="nunca">Nunca</button></span></div>
+  </div>
+  <p style="margin:.8rem 0 .4rem">2. ¿Son verdaderas o falsas estas desigualdades? Calcula cada lado antes de decidir.</p>
+  <div class="items">
+    <div class="it"><span class="l">a)</span><span class="m">(−3)<sup>2</sup> &gt; (−2)<sup>3</sup></span><span class="choices" data-ans="v"><button type="button" data-v="v">V</button><button type="button" data-v="f">F</button></span></div>
+    <div class="it"><span class="l">b)</span><span class="m">(−3)<sup>4</sup> &lt; −3<sup>4</sup></span><span class="choices" data-ans="f"><button type="button" data-v="v">V</button><button type="button" data-v="f">F</button></span></div>
+    <div class="it"><span class="l">c)</span><span class="m">(−3)<sup>3</sup> &lt; (−3)<sup>4</sup></span><span class="choices" data-ans="v"><button type="button" data-v="v">V</button><button type="button" data-v="f">F</button></span></div>
+    <div class="it"><span class="l">d)</span><span class="m">4<sup>3</sup> &gt; 3<sup>4</sup></span><span class="choices" data-ans="f"><button type="button" data-v="v">V</button><button type="button" data-v="f">F</button></span></div>
+    <div class="it"><span class="l">e)</span><span class="m">4<sup>2</sup> &gt; (−4)<sup>2</sup></span><span class="choices" data-ans="f"><button type="button" data-v="v">V</button><button type="button" data-v="f">F</button></span></div>
+  </div>
+  <div class="acciones"><button class="btn check" type="button">Comprobar</button><span class="fb" aria-live="polite"></span></div>
+  <details class="sol"><summary>Ver solución con pasos</summary>
+    <p>1. Con <b>exponente par</b>: <span class="m">3<sup>2</sup> = 9</span> y <span class="m">(−3)<sup>2</sup> = 9</span>. Con impar no: <span class="m">3<sup>3</sup> = 27</span> y <span class="m">(−3)<sup>3</sup> = −27</span>.</p>
+    <ol type="a">
+      <li><span class="m">9 &gt; −8</span> → <b>V</b>.</li>
+      <li><span class="m">81 &lt; −81</span> → <b>F</b>.</li>
+      <li><span class="m">−27 &lt; 81</span> → <b>V</b>.</li>
+      <li><span class="m">64 &gt; 81</span> → <b>F</b>.</li>
+      <li><span class="m">16 &gt; 16</span> → <b>F</b> (son iguales).</li>
+    </ol>
+  </details>
+</section>
+
+<p class="final" id="final">¡Ficha completada! Todas las respuestas correctas.</p>
+</main>
+
+<div class="marcador" aria-live="polite">
+  Aciertos: <b id="sc">0</b> / <span id="tot">0</span>
+  <div class="barra"><i id="bar"></i></div>
+</div>
+
+<script>
+(function(){
+  const MINUS = '\u2212';
+  const fmt = n => (n < 0 ? MINUS + Math.abs(n) : String(n));
+  const fmtMiles = n => {
+    const a = Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009');
+    return (n < 0 ? MINUS : '') + a;
+  };
+  const norm = s => (s == null ? '' : String(s)).trim().toLowerCase()
+    .replace(/[\u2212\u2012\u2013\u2014]/g, '-')
+    .replace(/\s+/g, '')
+    .replace(/[()]/g, '')
+    .replace(/[.\u2009]/g, '')
+    .replace(/^\+(?=.)/, '');
+
+  /* Opciones del ejercicio 2 */
+  const lecturas = ['3 por 5','3 a la quinta','menos 8 a la sexta','8 a la sexta','menos 8 por 6','10 al cubo','10 por 3','menos 4 al cuadrado','4 al cuadrado'];
+  document.querySelectorAll('select.ans').forEach(sel => {
+    sel.add(new Option('— elige —', ''));
+    lecturas.forEach(t => sel.add(new Option(t, t)));
+  });
+
+  /* Botones de elección */
+  document.querySelectorAll('.choices').forEach(g => {
+    g.querySelectorAll('button').forEach(b => {
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', () => {
+        g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+        b.setAttribute('aria-pressed', 'true');
+        g.dataset.sel = b.dataset.v;
+        const it = g.closest('.it'); if (it) it.classList.remove('ok', 'bad');
+      });
+    });
+  });
+
+  /* Marcador */
+  const items = Array.from(document.querySelectorAll('.ej .it'));
+  items.forEach((it, i) => it.dataset.id = i);
+  const solved = new Set();
+  document.getElementById('tot').textContent = items.length;
+  const actualiza = () => {
+    document.getElementById('sc').textContent = solved.size;
+    document.getElementById('bar').style.width = (100 * solved.size / items.length) + '%';
+    document.getElementById('final').classList.toggle('on', solved.size === items.length);
+  };
+
+  const valor = el => el.classList.contains('choices') ? (el.dataset.sel || '') : el.value;
+  const correcto = el => el.dataset.ans.split('|').map(norm).includes(norm(valor(el)));
+
+  document.querySelectorAll('input.ans, select.ans').forEach(el => {
+    el.addEventListener('input', () => { const it = el.closest('.it'); if (it) it.classList.remove('ok', 'bad'); });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { const s = el.closest('.ej'); s && s.querySelector('.check').click(); }
+    });
+  });
+
+  document.querySelectorAll('.ej').forEach(sec => {
+    const btn = sec.querySelector('.check'); if (!btn) return;
+    const fb = sec.querySelector('.fb');
+    btn.addEventListener('click', () => {
+      const its = sec.querySelectorAll('.it');
+      let bien = 0, vacios = 0;
+      its.forEach(it => {
+        const campos = it.querySelectorAll('[data-ans]');
+        const vacio = Array.from(campos).some(c => norm(valor(c)) === '');
+        it.classList.remove('ok', 'bad');
+        if (vacio) { vacios++; solved.delete(it.dataset.id); return; }
+        const ok = Array.from(campos).every(correcto);
+        it.classList.add(ok ? 'ok' : 'bad');
+        if (ok) { bien++; solved.add(it.dataset.id); } else solved.delete(it.dataset.id);
+      });
+      const total = its.length;
+      fb.classList.toggle('todo', bien === total);
+      if (bien === total) fb.textContent = '¡Todo bien! ' + bien + ' de ' + total + '.';
+      else fb.textContent = bien + ' de ' + total + ' bien.' +
+        (total - bien - vacios > 0 ? ' Revisa las marcadas en rojo.' : '') +
+        (vacios ? ' Te faltan ' + vacios + ' por contestar.' : '');
+      actualiza();
+    });
+  });
+
+  /* Ejemplos paso a paso */
+  document.querySelectorAll('.ejr').forEach(ej => {
+    const b = ej.querySelector('.next');
+    b.addEventListener('click', () => {
+      const ocultos = ej.querySelectorAll('.paso[hidden]');
+      if (ocultos.length) ocultos[0].hidden = false;
+      if (ocultos.length <= 1) { b.disabled = true; b.textContent = 'Ejemplo completo'; }
+    });
+  });
+
+  /* Máquina de potencias */
+  const mB = document.getElementById('mBase'), mE = document.getElementById('mExp'), mP = document.getElementById('mPar');
+  const lPar = document.getElementById('lPar');
+  const sup = e => '<sup>' + e + '</sup>';
+  function maquina(){
+    const b = parseInt(mB.value, 10), e = parseInt(mE.value, 10);
+    document.getElementById('oBase').textContent = fmt(b);
+    document.getElementById('oExp').textContent = e;
+    const neg = b < 0;
+    lPar.style.visibility = neg ? 'visible' : 'hidden';
+    const conPar = !neg || mP.checked;
+    const abs = Math.abs(b);
+    const absPow = Math.pow(abs, e);
+    let expr, desa, razon, res;
+    if (b === 0) {
+      expr = '0' + sup(e);
+      desa = '= ' + Array(e).fill('0').join(' · ');
+      razon = 'Cero multiplicado por cualquier número da cero.';
+      res = 0;
+    } else if (!neg) {
+      expr = b + sup(e);
+      desa = '= ' + Array(e).fill(b).join(' · ');
+      razon = 'Base positiva → el resultado siempre es positivo.';
+      res = absPow;
+    } else if (conPar) {
+      const f = '(' + fmt(b) + ')';
+      expr = f + sup(e);
+      desa = '= ' + Array(e).fill(f).join(' · ');
+      const par = e % 2 === 0;
+      razon = 'Hay ' + e + ' factor' + (e > 1 ? 'es' : '') + ' negativo' + (e > 1 ? 's' : '') +
+        ' → ' + (par ? 'número par → signo +' : 'número impar → signo −') + '.';
+      res = par ? absPow : -absPow;
+    } else {
+      expr = MINUS + abs + sup(e);
+      desa = '= ' + MINUS + '(' + Array(e).fill(abs).join(' · ') + ')';
+      razon = 'Sin paréntesis la base es ' + abs + ' (positiva). El signo − está fuera y no se eleva.';
+      res = -absPow;
+    }
+    document.getElementById('pExpr').innerHTML = expr;
+    document.getElementById('pDesa').innerHTML = desa;
+    document.getElementById('pRazon').textContent = razon;
+    document.getElementById('pRes').textContent = '= ' + (res > 0 && neg && conPar ? '+' : '') + fmtMiles(res);
+  }
+  [mB, mE, mP].forEach(x => x.addEventListener('input', maquina));
+  maquina();
+  actualiza();
+})();
+</script>
+</body>
+</html>
